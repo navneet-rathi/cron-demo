@@ -10,7 +10,7 @@
         hour: "*"
         user: root
         job: "df -h>> /var/log/my_script.log 2>&1"
-        state: present
+        state: absent
 
     - name: Ensure cron job is present
       cron:
@@ -19,4 +19,4 @@
         hour: "*/2"
         user: root
         job: "df -h>> /var/log/my_script.log 2>&1"
-        state: absent
+        state: present
