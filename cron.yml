@@ -2,6 +2,7 @@
 - name: setup cron jobs
   hosts: all
   become: yes
+  gather_facts: false
   tasks:
     - name: Ensure cron job is present
       cron:
