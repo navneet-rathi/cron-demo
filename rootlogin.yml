@@ -23,7 +23,7 @@
     - name: Update PermitRootLogin to no using lineinfile
       ansible.builtin.lineinfile:
         path: "{{ item }}"
-        regexp: '^\\s*PermitRootLogin\\s+'
+        regexp: 'PermitRootLogin'
         line: 'PermitRootLogin no'
         state: present
         backrefs: yes
