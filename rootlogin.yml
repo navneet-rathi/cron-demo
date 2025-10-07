@@ -1,0 +1,13 @@
+---
+- name: make sure root login is disabled on linux hosts
+  hosts: all
+  become: yes
+  gather_facts: false
+  tasks:
+    - name: Ensure root login is disabled
+      lineinfile:
+        file: /etc/ssh/sshd_config
+        regexp: '^PermitRootLogin yes'
+        line: '# PermitRootLogin'
+        state: present
+        backup: yes # Optional: Create a backup of the original file
