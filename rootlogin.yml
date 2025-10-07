@@ -10,6 +10,11 @@
       register: permitrootlogin_files
       changed_when: false
 
+    - name: Find all files with 'PermitRootLogin yes'
+      ansible.builtin.shell: "grep -Elr '^\\s*PermitRootLogin\\s+no' /etc/ssh/ || true"
+      register: permitrootlogin_no_files
+      changed_when: false
+
     - name: Show the list of files (if any)
       ansible.builtin.debug:
         msg: >
@@ -41,7 +46,9 @@
         backrefs: yes
         backup: yes
 #      loop: "{{ permitrootlogin_files.stdout_lines }}"
-      when: permitrootlogin_files.stdout == ""
+      when: 
+        - permitrootlogin_files.stdout == ""
+        - permitrootlogin_no_files.stdout != ""
       notify: Restart SSH
 
   handlers:
