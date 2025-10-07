@@ -1,13 +1,37 @@
 ---
-- name: make sure root login is disabled on linux hosts
+- name: Detect and fix PermitRootLogin yes in all SSH config files
   hosts: all
   become: yes
-  gather_facts: false
+  gather_facts: no
+
   tasks:
-    - name: Ensure root login is disabled
-      lineinfile:
-        file: /etc/ssh/sshd_config
-        regexp: '^PermitRootLogin yes'
-        line: '# PermitRootLogin'
-        state: present
-        backup: yes # Optional: Create a backup of the original file
+    - name: Find all files with 'PermitRootLogin yes'
+      ansible.builtin.shell: "grep -Elr '^\\s*PermitRootLogin\\s+yes' /etc/ssh/ || true"
+      register: permitrootlogin_files
+      changed_when: false
+
+    - name: Show the list of files (if any)
+      ansible.builtin.debug:
+        msg: >
+          {% if permitrootlogin_files.stdout %}
+            ⚠️ The following files contain 'PermitRootLogin yes':
+            {{ permitrootlogin_files.stdout_lines | join('\n') }}
+          {% else %}
+            ✅ No files contain 'PermitRootLogin yes'
+          {% endif %}
+
+    - name: Replace 'PermitRootLogin yes' with 'PermitRootLogin no'
+      ansible.builtin.replace:
+        path: "{{ item }}"
+        regexp: '^\\s*PermitRootLogin\\s+yes'
+        replace: 'PermitRootLogin no'
+        backup: yes
+      loop: "{{ permitrootlogin_files.stdout_lines }}"
+      when: permitrootlogin_files.stdout != ""
+      notify: Restart SSH
+
+  handlers:
+    - name: Restart SSH
+      ansible.builtin.service:
+        name: sshd
+        state: restarted
