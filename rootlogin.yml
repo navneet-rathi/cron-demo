@@ -10,7 +10,7 @@
       register: permitrootlogin_files
       changed_when: false
 
-    - name: Find all files with 'PermitRootLogin yes'
+    - name: Find all files with 'PermitRootLogin no'
       ansible.builtin.shell: "grep -Elr '^\\s*PermitRootLogin\\s+no' /etc/ssh/ || true"
       register: permitrootlogin_no_files
       changed_when: false
