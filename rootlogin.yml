@@ -20,11 +20,13 @@
             ✅ No files contain 'PermitRootLogin yes'
           {% endif %}
 
-    - name: Replace 'PermitRootLogin yes' with 'PermitRootLogin no'
-      ansible.builtin.replace:
+    - name: Update PermitRootLogin to no using lineinfile
+      ansible.builtin.lineinfile:
         path: "{{ item }}"
-        regexp: '^\\s*PermitRootLogin\\s+yes'
-        replace: 'PermitRootLogin no'
+        regexp: '^\\s*PermitRootLogin\\s+'
+        line: 'PermitRootLogin no'
+        state: present
+        backrefs: yes
         backup: yes
       loop: "{{ permitrootlogin_files.stdout_lines }}"
       when: permitrootlogin_files.stdout != ""
