@@ -48,7 +48,7 @@
 #      loop: "{{ permitrootlogin_files.stdout_lines }}"
       when: 
         - permitrootlogin_files.stdout == ""
-        - permitrootlogin_no_files.stdout != ""
+        - permitrootlogin_no_files.stdout == ""
       notify: Restart SSH
 
   handlers:
