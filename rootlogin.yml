@@ -26,8 +26,8 @@
         regexp: 'PermitRootLogin'
         line: 'PermitRootLogin no'
         state: present
-        backrefs: yes
-        backup: yes
+        #backrefs: yes
+        #backup: yes
       loop: "{{ permitrootlogin_files.stdout_lines }}"
       when: permitrootlogin_files.stdout != ""
       notify: Restart SSH
