@@ -32,6 +32,18 @@
       when: permitrootlogin_files.stdout != ""
       notify: Restart SSH
 
+    - name: Update PermitRootLogin to no using lineinfile
+      ansible.builtin.lineinfile:
+        path: "/etc/ssh/sshd_config"
+        regexp: '#PermitRootLogin'
+        line: 'PermitRootLogin no'
+        state: present
+        backrefs: yes
+        backup: yes
+#      loop: "{{ permitrootlogin_files.stdout_lines }}"
+      when: permitrootlogin_files.stdout == ""
+      notify: Restart SSH
+
   handlers:
     - name: Restart SSH
       ansible.builtin.service:
