@@ -11,4 +11,4 @@
         mode: '0755'
 
     - name: "Execute thought generator script"
-      command: "java -jar thought.jar"
+      command: "java -jar /opt/thought.jar"
