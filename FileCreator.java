@@ -15,7 +15,7 @@ public class FileCreator {
         }
 
         for (int i = 1; i <= numberOfFiles; i++) {
-            String fileName = "backend_log_" + i + ".log";
+            String fileName = "backend_log.log";
             File logFile = new File(logDirectory + fileName);
 
             try (PrintWriter writer = new PrintWriter(new FileWriter(logFile))) {
