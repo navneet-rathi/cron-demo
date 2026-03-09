@@ -6,12 +6,15 @@
   tasks:
     - name: copy thought generator script to remote host
       ansible.builtin.copy:
-        src: thought.jar
-        dest: /opt/thought.jar
+        src: "{{ item }}"
+        dest: "/opt/{{ item }}"
         mode: '0755'
         owner: root
         group: root
-
+      loop:
+        - "thought.jar"
+        - "LogGenerator.jar"
+          
     - name: "Create cron job to execute thought generator every hour"
       ansible.builtin.cron:
         name: "Thought Generator"
@@ -19,5 +22,10 @@
         hour: "*"
         state: "{{cron_state | default('present')}}"
         job: >
-          " date -u +%Y-%m-%dT%H:%M:%S >> /var/log/thought_generator.log 2>&1 &&
-          java -jar /opt/thought.jar >> /var/log/thought_generator.log 2>&1"
+          "date -u +%Y-%m-%dT%H:%M:%S >> /var/log/{{item}}.log 2>&1 &&
+          java -jar /opt/{{item}} >> /var/log/{{ item }}.log 2>&1"
+      loop:
+        - "thought.jar"
+        - "LogGenerator.jar" 
+
+      
