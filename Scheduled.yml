@@ -1,0 +1,14 @@
+---
+- name: "Play to execute thought generator on demand"
+  hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+    - name: copy thought generator script to remote host
+      copy:
+        src: thought.jar
+        dest: /opt/thought.jar
+        mode: '0755'
+
+    - name: "Execute thought generator script"
+      command: "java -jar /opt/thought.jar"
