@@ -17,7 +17,7 @@
           
     - name: "Create cron job to execute thought generator every hour"
       ansible.builtin.cron:
-        name: "Thought Generator"
+        name: "{{item}} Generator"
         minute: "0"
         hour: "*"
         state: "{{cron_state | default('present')}}"
