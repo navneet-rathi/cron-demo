@@ -12,3 +12,8 @@
 
     - name: "Execute thought generator script"
       command: "java -jar /opt/thought.jar"
+      register: ondemand
+
+    - name: Display | Ensure out put is visible
+      ansible.builtin.debug:
+        msg: "{{ondemand.stdout_lines}}" 
