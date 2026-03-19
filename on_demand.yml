@@ -1,6 +1,6 @@
 ---
 - name: "Play to execute thought generator on demand"
-  hosts: all
+  hosts: "{{ environment }}"
   gather_facts: false
   become: true
   tasks:
