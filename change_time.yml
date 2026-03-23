@@ -15,3 +15,7 @@
       ansible.builtin.command: timedatectl set-ntp true
       # This prevents automatic updates from overriding your manual setting
       when: time_sync 
+
+    - name: add a pause of 4 sec to syetem can sync time
+      ansible.builtin.pause:
+        timeout: 5
