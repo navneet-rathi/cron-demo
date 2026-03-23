@@ -11,3 +11,7 @@
       ansible.builtin.command: timedatectl set-time "2026-03-23 18:10:00"
       # Format: "YYYY-MM-DD HH:MM:SS"
         
+    - name: Enable NTP synchronization
+      ansible.builtin.command: timedatectl set-ntp true
+      # This prevents automatic updates from overriding your manual setting
+      when: time_sync 
