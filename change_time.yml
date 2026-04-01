@@ -20,5 +20,5 @@
 
     - name: add a pause of 4 sec to syetem can sync time
       ansible.builtin.pause:
-         seconds: 5
+         seconds: 4
       when: time_sync |bool
