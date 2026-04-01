@@ -8,7 +8,7 @@
       # This prevents automatic updates from overriding your manual setting
       when: time_sync == 'false'
 
-    - name: Set system date and time
+    - name: Set system date and time| "2026-04-01 17:30:00"
       ansible.builtin.command: timedatectl set-time "2026-04-01 17:30:00"
       # Format: "YYYY-MM-DD HH:MM:SS"
       when: time_sync == 'false'
