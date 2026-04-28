@@ -2,6 +2,7 @@
 - name: Manually set system time
   hosts: all
   become: true
+  gather_facts: false
   tasks:
     - name: Disable NTP synchronization
       ansible.builtin.command: timedatectl set-ntp false
@@ -18,7 +19,7 @@
       # This prevents automatic updates from overriding your manual setting
       when: time_sync |bool
 
-    # - name: add a pause of 4 sec to syetem can sync time
-    #   ansible.builtin.pause:
-    #     seconds: 4
-    #   when: time_sync |bool
+    - name: add a pause of 4 sec to syetem can sync time
+      ansible.builtin.pause:
+        seconds: 4
+      when: time_sync |bool
